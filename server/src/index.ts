@@ -1,7 +1,13 @@
-import express from "express";
+import express, { Application } from "express";
 import http  from "http";
 import { Server } from "socket.io"
-const app = express();
+const app : Application = express();
+
+// parser 
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
+
+
 const server = http.createServer(app)
 
 const io = new Server(server); 
@@ -18,8 +24,7 @@ import "./config/passport";
 import "./config/database";
 
 // modules 
-import  appModules  from "./modules/index.module";
-app.use("/api/v1/user/auth", appModules.userAuthModule)
-
+import routes from "./modules/index.module";
+routes(app)
 
 export default app;

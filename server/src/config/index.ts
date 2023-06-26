@@ -10,6 +10,7 @@ interface IEnvironmentVariables {
     DB_USER: string;
     DB_PASS: string;
     BCRYPT_SALT: string;
+    JWT_SECRET: string;
 }
 
 const {
@@ -20,13 +21,11 @@ const {
     DB_NAME,
     DB_USER,
     DB_PASS,
-    BCRYPT_SALT
+    BCRYPT_SALT,
+    JWT_SECRET
 }: IEnvironmentVariables = process.env as unknown as IEnvironmentVariables;
 
 const BCRYPT_SALT_INT = parseInt(BCRYPT_SALT)
-
-console.log(DB_PASS)
-console.log("DB_PASS")
 
 export {
     PORT,
@@ -36,5 +35,6 @@ export {
     DB_NAME,
     DB_USER,
     DB_PASS,
-    BCRYPT_SALT_INT
+    BCRYPT_SALT_INT,
+    JWT_SECRET
 }

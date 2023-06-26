@@ -1,6 +1,7 @@
-import userAuthController from "./userAuth/controllers/auth.controller";
+import { Application } from "express";
+import userAuthRoutes from "./userAuth"
 
-
-export default {
-    userAuthModule: userAuthController
+export default (app: Application) => {
+    app.use("/api", userAuthRoutes);
+    
 }

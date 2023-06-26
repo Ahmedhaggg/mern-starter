@@ -4,6 +4,7 @@ import { loginWithGoogle } from "../services/auth.service"
 import httpStatucCode from "../../../errors/httpStatusCode";
 import { formatResponse } from "../../../helpers/responseFormat";
 import IPassportUser from "../interfaces/IPassportUser";
+import catchErrors from "../../../middlewares/catchErrors";
 const router = Router();
 
 
@@ -18,18 +19,20 @@ router
       failureRedirect: "/api/v1/user/auth/google/callback/faild",
       session:false
     }),
-    async (req: Request, res: Response) => {
-      let { emails, photos, displayName } = req.user as IPassportUser;
+    catchErrors(
+      async (req: Request, res: Response) => {
+        let { emails, photos, displayName } = req.user as IPassportUser;
 
-      let { accessToken, refreshToken } = await loginWithGoogle({ 
-        name: displayName, 
-        photo: photos[0].value,
-        email: emails[0].value
-      });
+        let { accessToken, refreshToken } = await loginWithGoogle({ 
+          name: displayName, 
+          photo: photos[0].value,
+          email: emails[0].value
+        });
 
-      return res.status(httpStatucCode.OK).json(formatResponse({ accessToken, refreshToken }))
+        return res.status(httpStatucCode.OK).json(formatResponse({ accessToken, refreshToken }))
 
-    }
+      }
+    )
   );
 
 router.get("/google/callback/faild", function(req, res, next) {

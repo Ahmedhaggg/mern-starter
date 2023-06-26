@@ -1,4 +1,4 @@
-let httpStatucCode = {
+let httpStatusCode = {
     OK: 200,
     CLIENT_ERROR: 400,
     NOT_FOUND: 404,
@@ -8,4 +8,4 @@ let httpStatucCode = {
 }
 
 
-export default httpStatucCode;
+export default httpStatusCode;

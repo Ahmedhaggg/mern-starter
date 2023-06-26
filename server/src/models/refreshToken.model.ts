@@ -2,7 +2,11 @@ import { DataTypes, Model } from "sequelize";
 import sequelize from "../config/database"
 import  IRefreshToken  from '../interfaces/IRefreshToken'
 import User from "./user.model";
-class RefreshToken extends Model<IRefreshToken> {}
+class RefreshToken extends Model<IRefreshToken> {
+    declare id : string;
+    declare userId : string;
+    declare token : string;
+}
 
 RefreshToken.init({
     id: {
@@ -25,7 +29,6 @@ RefreshToken.init({
     sequelize: sequelize,
     tableName: "RefreshToken",
     createdAt: false,
-
     updatedAt: false
 });
 

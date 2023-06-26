@@ -1,10 +1,9 @@
-import { createJwtToken } from "../../../helpers/jwt";
 import IUser from "../../../interfaces/IUser";
-import ILoginResponse from "../interfaces/ILoginResponse";
 import { createRefreshToken } from "../repositories/token.repository";
 import { createUser, findUserByEmail } from "../repositories/user.repositories";
+import { generateUserAccessToken, generateUserRefreshToken } from "../utils/userTokenGenerator";
 
-export const loginWithGoogle = async (userData: IUser) : Promise<ILoginResponse> => {
+export const loginWithGoogle = async (userData: IUser) : Promise<{ accessToken: string, refreshToken: string}> => {
     let { email, name, photo } = userData;
 
     let user = await findUserByEmail(email);
@@ -12,8 +11,8 @@ export const loginWithGoogle = async (userData: IUser) : Promise<ILoginResponse>
     if (!user)
         user = await createUser({ email, name, photo });
     
-    let refreshToken = await createJwtToken({ id : user.id }, "1y");
-    let accessToken = await createJwtToken({ id: user.id, role: "user"}, "3d");
+    let refreshToken = await generateUserRefreshToken(user.id);
+    let accessToken = await generateUserAccessToken(user.id);
 
     await createRefreshToken({ userId: user.id, token: refreshToken });
 

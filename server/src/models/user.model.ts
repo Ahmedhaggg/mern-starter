@@ -2,13 +2,18 @@ import { DataTypes, Model } from "sequelize";
 import sequelize from "../config/database";
 import IUser from '../interfaces/IUser';
 
-class User extends Model<IUser> {}
+class User extends Model<IUser> {
+    declare id : string;
+    declare name : string;
+    declare photo : string;
+    declare email : string;
+}
 
 User.init({ 
     id: {
         type:  DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
-        autoIncrement: true
     },
     email: {
         type: DataTypes.STRING,
